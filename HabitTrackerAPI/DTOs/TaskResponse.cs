@@ -1,6 +1,6 @@
-﻿using Task_Management_API.Models.Enums;
+﻿using HabitTrackerAPI.Models.Enums;
 
-namespace Task_Management_API.DTOs
+namespace HabitTrackerAPI.DTOs
 {
     public class TaskResponse
     {

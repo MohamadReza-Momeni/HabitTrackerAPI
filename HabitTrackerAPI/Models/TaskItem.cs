@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Task_Management_API.Models.Enums;
+using HabitTrackerAPI.Models.Enums;
 
-namespace Task_Management_API.Models
+namespace HabitTrackerAPI.Models
 {
     public class TaskItem
     {

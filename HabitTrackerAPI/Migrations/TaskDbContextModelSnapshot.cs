@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Task_Management_API.Data;
+using HabitTrackerAPI.Data;
 
 #nullable disable
 
-namespace Task_Management_API.Migrations
+namespace HabitTrackerAPI.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
     partial class TaskDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace Task_Management_API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Task_Management_API.Models.TaskItem", b =>
+            modelBuilder.Entity("HabitTrackerAPI.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

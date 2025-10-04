@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Reflection;
-using Task_Management_API.Data;
+using HabitTrackerAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

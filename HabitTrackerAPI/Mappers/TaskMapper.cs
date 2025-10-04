@@ -1,8 +1,8 @@
-﻿using Task_Management_API.DTOs;
-using Task_Management_API.Models;
+﻿using HabitTrackerAPI.DTOs;
+using HabitTrackerAPI.Models;
 
 
-namespace Task_Management_API.Mappers
+namespace HabitTrackerAPI.Mappers
 {
     public static class TaskMapper
     {

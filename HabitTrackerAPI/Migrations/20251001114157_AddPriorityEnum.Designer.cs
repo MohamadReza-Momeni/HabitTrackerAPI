@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Task_Management_API.Data;
+using HabitTrackerAPI.Data;
 
 #nullable disable
 
-namespace Task_Management_API.Migrations
+namespace HabitTrackerAPI.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
     [Migration("20251001114157_AddPriorityEnum")]
@@ -20,7 +20,7 @@ namespace Task_Management_API.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
 
-            modelBuilder.Entity("Task_Management_API.Models.TaskItem", b =>
+            modelBuilder.Entity("HabitTrackerAPI.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

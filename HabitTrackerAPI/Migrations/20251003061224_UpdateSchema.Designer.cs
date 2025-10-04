@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Task_Management_API.Data;
+using HabitTrackerAPI.Data;
 
 #nullable disable
 
-namespace Task_Management_API.Migrations
+namespace HabitTrackerAPI.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
     [Migration("20251003061224_UpdateSchema")]
@@ -25,7 +25,7 @@ namespace Task_Management_API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Task_Management_API.Models.TaskItem", b =>
+            modelBuilder.Entity("HabitTrackerAPI.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

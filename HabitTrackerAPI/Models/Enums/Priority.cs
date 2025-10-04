@@ -1,4 +1,4 @@
-﻿namespace Task_Management_API.Models.Enums
+﻿namespace HabitTrackerAPI.Models.Enums
 {
     public enum Priority
     {

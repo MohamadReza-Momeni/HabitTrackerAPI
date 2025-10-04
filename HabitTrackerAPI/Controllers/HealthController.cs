@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Task_Management_API.Controllers
+namespace HabitTrackerAPI.Controllers
 {
     [ApiController]
     [Route("api")]

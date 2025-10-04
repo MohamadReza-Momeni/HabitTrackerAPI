@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Task_Management_API.Data;
-using Task_Management_API.DTOs;
-using Task_Management_API.Models.Enums;
-using Task_Management_API.Mappers;
+using HabitTrackerAPI.Data;
+using HabitTrackerAPI.DTOs;
+using HabitTrackerAPI.Models.Enums;
+using HabitTrackerAPI.Mappers;
 
-namespace Task_Management_API.Controllers
+namespace HabitTrackerAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

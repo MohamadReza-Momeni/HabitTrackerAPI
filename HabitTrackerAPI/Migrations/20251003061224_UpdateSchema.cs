@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Task_Management_API.Migrations
+namespace HabitTrackerAPI.Migrations
 {
     /// <inheritdoc />
     public partial class UpdateSchema : Migration

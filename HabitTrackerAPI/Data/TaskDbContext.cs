@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Task_Management_API.Models;
+using HabitTrackerAPI.Models;
 
-namespace Task_Management_API.Data
+namespace HabitTrackerAPI.Data
 {
     public class TaskDbContext : DbContext
     {
