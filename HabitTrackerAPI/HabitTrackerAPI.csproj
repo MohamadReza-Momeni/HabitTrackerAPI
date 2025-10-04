@@ -4,13 +4,13 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>TaskManagementAPI</RootNamespace>
+    <RootNamespace>HabitTrackerAPI</RootNamespace>
 
     <!-- ✅ Enable XML doc generation -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <!-- ✅ Use Configuration variable so it works for Debug and Release -->
-    <DocumentationFile>bin\$(Configuration)\net9.0\TaskManagementAPI.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\net9.0\HabitTrackerAPI.xml</DocumentationFile>
 
     <!-- Suppress warnings for missing XML comments -->
     <NoWarn>1591</NoWarn>
@@ -37,7 +37,7 @@
 
   <!-- ✅ Make sure XML doc file is copied during publish -->
   <ItemGroup>
-    <None Include="bin\$(Configuration)\net9.0\TaskManagementAPI.xml" CopyToPublishDirectory="Always" />
+    <None Include="bin\$(Configuration)\net9.0\HabitTrackerAPI.xml" CopyToPublishDirectory="Always" />
   </ItemGroup>
 
 </Project>

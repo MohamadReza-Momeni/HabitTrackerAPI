@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task Management API", "TaskManagementAPI\TaskManagementAPI.csproj", "{CF64EC6D-71B5-4ED9-9CB7-AFE4E8855557}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task Management API", "HabitTrackerAPI\HabitTrackerAPI.csproj", "{CF64EC6D-71B5-4ED9-9CB7-AFE4E8855557}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
