@@ -3,7 +3,7 @@ using HabitTrackerAPI.Models.Enums;
 
 namespace HabitTrackerAPI.Models
 {
-    public class TaskItem
+    public class TaskItem: IActivityItem
     {
         public int Id { get; set; }
 
