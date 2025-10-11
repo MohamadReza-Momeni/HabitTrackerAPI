@@ -19,11 +19,14 @@ namespace HabitTrackerAPI.DTOs
         /// <summary>The frequency at which the habit should occur.</summary>
         public Frequency Frequency { get; set; }
 
+        /// <summary>Indicates whether the habit tracks positive results, negative results, or both.</summary>
+        public HabitTrackingMode TrackingMode { get; set; }
+
         /// <summary>How many times the habit was successfully completed.</summary>
-        public uint PositiveCounter { get; set; }
+        public uint? PositiveCounter { get; set; }
 
         /// <summary>How many times the habit was missed.</summary>
-        public uint NegativeCounter { get; set; }
+        public uint? NegativeCounter { get; set; }
 
         /// <summary>When the habit was created (UTC).</summary>
         public DateTime CreatedAt { get; set; }

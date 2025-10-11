@@ -1,11 +1,10 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HabitTrackerAPI.Models.Enums;
-using HabitTrackerAPI.Validation;
 
 namespace HabitTrackerAPI.Models
 {
-    [HabitCounterValidation]
-    public class HabitItem: IActivityItem
+    public class DailyItem: IActivityItem
     {
         public int Id { get; set; }
 
@@ -19,13 +18,12 @@ namespace HabitTrackerAPI.Models
         public Priority Priority { get; set; }  // "Low", "Medium", "High"
 
         [Required]
-        public Frequency Frequency { get; set; }  // "Daily", "Weekly", "Monthly", "NoFrequency"
+        public RepeatDuration RepeatDuration { get; set; }  // "Daily", "Weekly", "Monthly", "Yearly"
 
         [Required]
-        public HabitTrackingMode TrackingMode { get; set; }
+        public DateTime StartDate { get; set; } 
 
-        public uint? PositiveCounter { get; set; }
-        public uint? NegativeCounter { get; set; }
+        public ICollection<DailyChecklist> Checklists { get; set; } = new List<DailyChecklist>();
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

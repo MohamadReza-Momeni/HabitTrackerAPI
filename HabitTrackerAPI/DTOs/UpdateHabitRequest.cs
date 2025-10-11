@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using HabitTrackerAPI.Models.Enums;
+using HabitTrackerAPI.Validation;
 
 namespace HabitTrackerAPI.DTOs
 {
+    [HabitCounterValidation]
     public class UpdateHabitRequest
     {
         [Required, MaxLength(200)]
@@ -14,10 +16,14 @@ namespace HabitTrackerAPI.DTOs
         [Required]
         public Priority Priority { get; set; }
 
+        [Required]
         public Frequency Frequency { get; set; }
 
-        public uint PositiveCounter { get; set; }
+        [Required]
+        public HabitTrackingMode TrackingMode { get; set; }
 
-        public uint NegativeCounter { get; set; }
+        public uint? PositiveCounter { get; set; }
+
+        public uint? NegativeCounter { get; set; }
     }
 }

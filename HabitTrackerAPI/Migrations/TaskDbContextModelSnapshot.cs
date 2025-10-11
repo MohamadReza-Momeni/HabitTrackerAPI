@@ -22,6 +22,69 @@ namespace HabitTrackerAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("HabitTrackerAPI.Models.DailyChecklist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DailyItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DailyItemId");
+
+                    b.ToTable("DailyChecklists");
+                });
+
+            modelBuilder.Entity("HabitTrackerAPI.Models.DailyItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RepeatDuration")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DailyItems");
+                });
+
             modelBuilder.Entity("HabitTrackerAPI.Models.HabitItem", b =>
                 {
                     b.Property<int>("Id")
@@ -40,10 +103,10 @@ namespace HabitTrackerAPI.Migrations
                     b.Property<int>("Frequency")
                         .HasColumnType("integer");
 
-                    b.Property<long>("NegativeCounter")
+                    b.Property<long?>("NegativeCounter")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("PositiveCounter")
+                    b.Property<long?>("PositiveCounter")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Priority")
@@ -53,6 +116,9 @@ namespace HabitTrackerAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
+
+                    b.Property<int>("TrackingMode")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -97,6 +163,22 @@ namespace HabitTrackerAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tasks");
+                });
+
+            modelBuilder.Entity("HabitTrackerAPI.Models.DailyChecklist", b =>
+                {
+                    b.HasOne("HabitTrackerAPI.Models.DailyItem", "DailyItem")
+                        .WithMany("Checklists")
+                        .HasForeignKey("DailyItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DailyItem");
+                });
+
+            modelBuilder.Entity("HabitTrackerAPI.Models.DailyItem", b =>
+                {
+                    b.Navigation("Checklists");
                 });
 #pragma warning restore 612, 618
         }

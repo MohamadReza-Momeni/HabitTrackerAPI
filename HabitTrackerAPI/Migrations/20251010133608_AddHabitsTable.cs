@@ -22,8 +22,9 @@ namespace HabitTrackerAPI.Migrations
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     Priority = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
-                    PositiveCounter = table.Column<long>(type: "bigint", nullable: false),
-                    NegativeCounter = table.Column<long>(type: "bigint", nullable: false),
+                    TrackingMode = table.Column<int>(type: "integer", nullable: false),
+                    PositiveCounter = table.Column<long>(type: "bigint", nullable: true),
+                    NegativeCounter = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

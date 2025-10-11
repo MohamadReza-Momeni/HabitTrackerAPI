@@ -7,8 +7,12 @@ namespace HabitTrackerAPI.Data
     {
         public TaskDbContext(DbContextOptions<TaskDbContext> options) : base(options) { }
 
-        public DbSet<TaskItem> Tasks { get; set; }   // Maps to Tasks table
+        public DbSet<TaskItem> Tasks { get; set; }          // Maps to Tasks table
 
-        public DbSet<HabitItem> Habits { get; set; } // Maps to Habits table
+        public DbSet<HabitItem> Habits { get; set; }        // Maps to Habits table
+
+        public DbSet<DailyItem> DailyItems { get; set; }    // Maps to DailyItems table
+
+        public DbSet<DailyChecklist> DailyChecklists { get; set; } // Maps to DailyChecklists table
     }
 }

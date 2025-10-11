@@ -14,6 +14,7 @@ namespace HabitTrackerAPI.Mappers
                 Description = habit.Description,
                 Priority = habit.Priority,
                 Frequency = habit.Frequency,
+                TrackingMode = habit.TrackingMode,
                 PositiveCounter = habit.PositiveCounter,
                 NegativeCounter = habit.NegativeCounter,
                 CreatedAt = habit.CreatedAt,
@@ -29,8 +30,9 @@ namespace HabitTrackerAPI.Mappers
                 Description = dto.Description,
                 Priority = dto.Priority,
                 Frequency = dto.Frequency,
-                PositiveCounter = 0,
-                NegativeCounter = 0,
+                TrackingMode = dto.TrackingMode,
+                PositiveCounter = dto.PositiveCounter,
+                NegativeCounter = dto.NegativeCounter,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
@@ -44,6 +46,7 @@ namespace HabitTrackerAPI.Mappers
             habit.Frequency = dto.Frequency;
             habit.PositiveCounter = dto.PositiveCounter;
             habit.NegativeCounter = dto.NegativeCounter;
+            habit.TrackingMode = dto.TrackingMode;
             habit.UpdatedAt = DateTime.UtcNow;
         }
     }

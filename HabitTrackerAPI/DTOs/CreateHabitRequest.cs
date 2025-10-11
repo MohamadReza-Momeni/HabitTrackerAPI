@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using HabitTrackerAPI.Models.Enums;
-
+using HabitTrackerAPI.Validation;
 
 namespace HabitTrackerAPI.DTOs
 {
+    [HabitCounterValidation]
     public class CreateHabitRequest
     {
         /// <summary>
@@ -25,9 +26,25 @@ namespace HabitTrackerAPI.DTOs
         public Priority Priority { get; set; }
 
         /// <summary>
-        /// Optional deadline (must be in the future).
+        /// Frequency for performing the habit (e.g. Daily, Weekly).
         /// </summary>
+        [Required]
         public Frequency Frequency { get; set; }
-        
+
+        /// <summary>
+        /// Determines whether the habit tracks positive results, negative results, or both.
+        /// </summary>
+        [Required]
+        public HabitTrackingMode TrackingMode { get; set; }
+
+        /// <summary>
+        /// Initial value for the positive counter when the habit tracks positive outcomes.
+        /// </summary>
+        public uint? PositiveCounter { get; set; }
+
+        /// <summary>
+        /// Initial value for the negative counter when the habit tracks negative outcomes.
+        /// </summary>
+        public uint? NegativeCounter { get; set; }
     }
 }
