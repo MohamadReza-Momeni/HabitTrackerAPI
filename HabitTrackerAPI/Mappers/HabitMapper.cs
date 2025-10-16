@@ -22,7 +22,7 @@ namespace HabitTrackerAPI.Mappers
             };
         }
 
-        public static HabitItem ToHabitItem(this CreateHabitRequest dto)
+        public static HabitItem ToHabitItem(this CreateHabitRequest dto, string userId)
         {
             return new HabitItem
             {
@@ -34,7 +34,8 @@ namespace HabitTrackerAPI.Mappers
                 PositiveCounter = dto.PositiveCounter,
                 NegativeCounter = dto.NegativeCounter,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                UpdatedAt = DateTime.UtcNow,
+                UserId = userId
             };
         }
 

@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using HabitTrackerAPI.Data;
 using HabitTrackerAPI.DTOs;
-using HabitTrackerAPI.Models.Enums;
 using HabitTrackerAPI.Mappers;
+using HabitTrackerAPI.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HabitTrackerAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Tags("Tasks")]
+    [Authorize]
     public class TasksController : ControllerBase
     {
         private readonly TaskDbContext _context;
@@ -18,6 +21,10 @@ namespace HabitTrackerAPI.Controllers
         {
             _context = context;
         }
+
+        private string GetUserId() =>
+            User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? throw new InvalidOperationException("User identifier claim missing.");
 
         /// <summary>
         /// Get all tasks with optional filtering, sorting, and pagination.
@@ -66,7 +73,11 @@ namespace HabitTrackerAPI.Controllers
             string sortBy = "CreatedAt",
             string order = "desc")
         {
-            var query = _context.Tasks.AsQueryable();
+            var userId = GetUserId();
+
+            var query = _context.Tasks
+                .AsNoTracking()
+                .Where(t => t.UserId == userId);
 
             // Filtering
             if (isCompleted.HasValue)
@@ -131,7 +142,11 @@ namespace HabitTrackerAPI.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<TaskResponse>> GetTask(int id)
         {
-            var task = await _context.Tasks.FindAsync(id);
+            var userId = GetUserId();
+
+            var task = await _context.Tasks
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
 
             if (task == null)
                 return NotFound();
@@ -177,7 +192,8 @@ namespace HabitTrackerAPI.Controllers
             if (request.DueDate.HasValue && request.DueDate.Value < DateTime.UtcNow)
                 return BadRequest(new { error = "Due date cannot be in the past." });
 
-            var task = request.ToTaskItem();
+            var userId = GetUserId();
+            var task = request.ToTaskItem(userId);
 
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
@@ -224,7 +240,11 @@ namespace HabitTrackerAPI.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateTask(int id, UpdateTaskRequest request)
         {
-            var task = await _context.Tasks.FindAsync(id);
+            var userId = GetUserId();
+
+            var task = await _context.Tasks
+                .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+
             if (task == null)
                 return NotFound();
 
@@ -253,7 +273,11 @@ namespace HabitTrackerAPI.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            var task = await _context.Tasks.FindAsync(id);
+            var userId = GetUserId();
+
+            var task = await _context.Tasks
+                .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+
             if (task == null)
                 return NotFound();
 

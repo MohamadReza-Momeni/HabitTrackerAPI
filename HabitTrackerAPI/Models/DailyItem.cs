@@ -28,5 +28,10 @@ namespace HabitTrackerAPI.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        [Required]
+        public string UserId { get; set; } = default!;
+
+        public ApplicationUser? User { get; set; }
     }
 }

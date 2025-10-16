@@ -21,7 +21,7 @@ namespace HabitTrackerAPI.Mappers
             };
         }
 
-        public static TaskItem ToTaskItem(this CreateTaskRequest dto)
+        public static TaskItem ToTaskItem(this CreateTaskRequest dto, string userId)
         {
             return new TaskItem
             {
@@ -31,7 +31,8 @@ namespace HabitTrackerAPI.Mappers
                 DueDate = dto.DueDate,
                 IsCompleted = false,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                UpdatedAt = DateTime.UtcNow,
+                UserId = userId
             };
         }
 

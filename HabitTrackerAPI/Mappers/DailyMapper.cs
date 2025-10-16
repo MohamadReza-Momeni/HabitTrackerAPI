@@ -31,7 +31,7 @@ namespace HabitTrackerAPI.Mappers
             };
         }
 
-        public static DailyItem ToDailyItem(this CreateDailyRequest dto)
+        public static DailyItem ToDailyItem(this CreateDailyRequest dto, string userId)
         {
             return new DailyItem
             {
@@ -42,6 +42,7 @@ namespace HabitTrackerAPI.Mappers
                 StartDate = dto.StartDate,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
+                UserId = userId,
                 Checklists = (dto.Checklists ?? new List<DailyChecklistItem>())
                     .Select(item => new DailyChecklist
                     {

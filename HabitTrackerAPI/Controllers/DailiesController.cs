@@ -1,17 +1,18 @@
-using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using HabitTrackerAPI.Data;
 using HabitTrackerAPI.DTOs;
 using HabitTrackerAPI.Mappers;
 using HabitTrackerAPI.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HabitTrackerAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Tags("Dailies")]
+    [Authorize]
     public class DailiesController : ControllerBase
     {
         private readonly TaskDbContext _context;
@@ -20,6 +21,10 @@ namespace HabitTrackerAPI.Controllers
         {
             _context = context;
         }
+
+        private string GetUserId() =>
+            User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? throw new InvalidOperationException("User identifier claim missing.");
 
         /// <summary>
         /// Retrieve all daily items with optional filtering, sorting, and pagination.
@@ -36,9 +41,12 @@ namespace HabitTrackerAPI.Controllers
             string sortBy = "CreatedAt",
             string order = "desc")
         {
+            var userId = GetUserId();
+
             var query = _context.DailyItems
+                .Where(d => d.UserId == userId)
                 .Include(d => d.Checklists)
-                .AsQueryable();
+                .AsNoTracking();
 
             if (priority.HasValue)
                 query = query.Where(d => d.Priority == priority.Value);
@@ -88,8 +96,12 @@ namespace HabitTrackerAPI.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<DailyResponse>> GetDaily(int id)
         {
+            var userId = GetUserId();
+
             var daily = await _context.DailyItems
+                .Where(d => d.UserId == userId)
                 .Include(d => d.Checklists)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(d => d.Id == id);
 
             if (daily == null)
@@ -109,13 +121,16 @@ namespace HabitTrackerAPI.Controllers
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
 
-            var daily = request.ToDailyItem();
+            var userId = GetUserId();
+            var daily = request.ToDailyItem(userId);
 
             _context.DailyItems.Add(daily);
             await _context.SaveChangesAsync();
 
             daily = await _context.DailyItems
+                .Where(d => d.UserId == userId)
                 .Include(d => d.Checklists)
+                .AsNoTracking()
                 .FirstAsync(d => d.Id == daily.Id);
 
             return CreatedAtAction(nameof(GetDaily), new { id = daily.Id }, daily.ToDailyResponse());
@@ -133,7 +148,10 @@ namespace HabitTrackerAPI.Controllers
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
 
+            var userId = GetUserId();
+
             var daily = await _context.DailyItems
+                .Where(d => d.UserId == userId)
                 .Include(d => d.Checklists)
                 .FirstOrDefaultAsync(d => d.Id == id);
 
@@ -145,7 +163,9 @@ namespace HabitTrackerAPI.Controllers
             await _context.SaveChangesAsync();
 
             daily = await _context.DailyItems
+                .Where(d => d.UserId == userId)
                 .Include(d => d.Checklists)
+                .AsNoTracking()
                 .FirstAsync(d => d.Id == id);
 
             return Ok(daily.ToDailyResponse());
@@ -159,7 +179,10 @@ namespace HabitTrackerAPI.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteDaily(int id)
         {
+            var userId = GetUserId();
+
             var daily = await _context.DailyItems
+                .Where(d => d.UserId == userId)
                 .Include(d => d.Checklists)
                 .FirstOrDefaultAsync(d => d.Id == id);
 

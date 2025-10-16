@@ -1,15 +1,18 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using HabitTrackerAPI.Data;
 using HabitTrackerAPI.DTOs;
 using HabitTrackerAPI.Mappers;
 using HabitTrackerAPI.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HabitTrackerAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Tags("Habits")]
+    [Authorize]
     public class HabitsController : ControllerBase
     {
         private readonly TaskDbContext _context;
@@ -18,6 +21,10 @@ namespace HabitTrackerAPI.Controllers
         {
             _context = context;
         }
+
+        private string GetUserId() =>
+            User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? throw new InvalidOperationException("User identifier claim missing.");
 
         /// <summary>
         /// Retrieve all habits with optional filtering, sorting, and pagination.
@@ -42,7 +49,11 @@ namespace HabitTrackerAPI.Controllers
             string sortBy = "CreatedAt",
             string order = "desc")
         {
-            var query = _context.Habits.AsQueryable();
+            var userId = GetUserId();
+
+            var query = _context.Habits
+                .AsNoTracking()
+                .Where(h => h.UserId == userId);
 
             if (priority.HasValue)
                 query = query.Where(h => h.Priority == priority.Value);
@@ -89,7 +100,12 @@ namespace HabitTrackerAPI.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<HabitResponse>> GetHabit(int id)
         {
-            var habit = await _context.Habits.FindAsync(id);
+            var userId = GetUserId();
+
+            var habit = await _context.Habits
+                .AsNoTracking()
+                .FirstOrDefaultAsync(h => h.Id == id && h.UserId == userId);
+
             if (habit == null)
                 return NotFound();
 
@@ -111,7 +127,8 @@ namespace HabitTrackerAPI.Controllers
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
 
-            var habit = request.ToHabitItem();
+            var userId = GetUserId();
+            var habit = request.ToHabitItem(userId);
 
             _context.Habits.Add(habit);
             await _context.SaveChangesAsync();
@@ -137,7 +154,11 @@ namespace HabitTrackerAPI.Controllers
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
 
-            var habit = await _context.Habits.FindAsync(id);
+            var userId = GetUserId();
+
+            var habit = await _context.Habits
+                .FirstOrDefaultAsync(h => h.Id == id && h.UserId == userId);
+
             if (habit == null)
                 return NotFound();
 
@@ -159,7 +180,11 @@ namespace HabitTrackerAPI.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteHabit(int id)
         {
-            var habit = await _context.Habits.FindAsync(id);
+            var userId = GetUserId();
+
+            var habit = await _context.Habits
+                .FirstOrDefaultAsync(h => h.Id == id && h.UserId == userId);
+
             if (habit == null)
                 return NotFound();
 

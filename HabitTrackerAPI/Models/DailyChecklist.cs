@@ -13,6 +13,6 @@ namespace HabitTrackerAPI.Models
 
         public int DailyItemId { get; set; }
 
-        public DailyItem DailyItem { get; set; }
+        public DailyItem DailyItem { get; set; } = default!;
     }
 }
